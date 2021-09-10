@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 @pytest.fixture
 def data():
 
-    df = pd.read_csv("../data/census_clean.csv")
+    df = pd.read_csv("./data/census_clean.csv")
     
     return df
 
@@ -44,7 +44,7 @@ def test_train_model(data):
         train, categorical_features=cat_features, label="salary", training=True
 )
     model = train_model(X_train, y_train)
-    filepath = "../model/model.pkl"
+    filepath = "./model/model.pkl"
     assert os.path.exists(filepath)
 
 
@@ -72,7 +72,7 @@ def test_inference(split_data):
     X_test, y_test, _, _ = process_data(
     test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb      
     )
-    path_model = "../model/model.pkl"
+    path_model = "./model/model.pkl"
     model = pickle.load(open(path_model, 'rb'))
 
     y_train_pred = inference(model, X_train)
@@ -102,7 +102,7 @@ def test_compute_model_metrics(split_data):
     X_test, y_test, _, _ = process_data(
     test, categorical_features=cat_features, label="salary", training=False, encoder=encoder, lb=lb      
     )
-    path_model = "../model/model.pkl"
+    path_model = "./model/model.pkl"
     model = pickle.load(open(path_model, 'rb'))
 
     y_train_pred = inference(model, X_train)   
