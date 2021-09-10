@@ -6,12 +6,12 @@ Date: September, 2021
 """
 import os
 import sys
-sys.path.insert(1, './ml')
+sys.path.insert(1, './starter/ml')
 import pytest
 import pandas as pd
 import pickle
-from data import process_data
-from model import train_model,inference,compute_model_metrics, slice_metrics_perfomance
+from starter.ml.data import process_data
+from starter.ml.model import train_model,inference,compute_model_metrics, slice_metrics_perfomance
 from sklearn.model_selection import train_test_split
 
 @pytest.fixture
