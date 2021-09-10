@@ -6,6 +6,7 @@ Date: September, 2021
 """
 import os
 import sys
+import yaml
 sys.path.insert(1, './starter/ml')
 import pytest
 import pandas as pd
@@ -13,6 +14,15 @@ import pickle
 from starter.ml.data import process_data
 from starter.ml.model import train_model,inference,compute_model_metrics, slice_metrics_perfomance
 from sklearn.model_selection import train_test_split
+
+CWD = os.getcwd()
+
+# Loads config
+config_path = os.path.join(CWD, 'starter', 'params.yaml')
+with open(config_path, 'r') as fp:
+    CONFIG = yaml.safe_load(fp)
+
+MODEL_PARAMS=CONFIG['train_params']
 
 @pytest.fixture
 def data():
@@ -43,7 +53,7 @@ def test_train_model(data):
     X_train, y_train, encoder, lb = process_data(
         train, categorical_features=cat_features, label="salary", training=True
 )
-    model = train_model(X_train, y_train)
+    model = train_model(X_train, y_train, MODEL_PARAMS)
     filepath = "./model/model.pkl"
     assert os.path.exists(filepath)
 
