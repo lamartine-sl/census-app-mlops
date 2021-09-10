@@ -71,7 +71,7 @@ def inference(model: RandomForestClassifier, X: np.array):
     preds = model.predict(X)
     return preds
 
-def compute_slice_metrics(
+def slice_metrics_perfomance(
         df: pd.DataFrame,
         feature: str,
         model,
