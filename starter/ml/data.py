@@ -6,14 +6,11 @@ def process_data(
     X, categorical_features=[], label=None, training=True, encoder=None, lb=None
 ):
     """ Process the data used in the machine learning pipeline.
-
     Processes the data using one hot encoding for the categorical features and a
     label binarizer for the labels. This can be used in either training or
     inference/validation.
-
     Note: depending on the type of model used, you may want to add in functionality that
     scales the continuous data.
-
     Inputs
     ------
     X : pd.DataFrame
@@ -29,7 +26,6 @@ def process_data(
         Trained sklearn OneHotEncoder, only used if training=False.
     lb : sklearn.preprocessing._label.LabelBinarizer
         Trained sklearn LabelBinarizer, only used if training=False.
-
     Returns
     -------
     X : np.array

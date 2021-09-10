@@ -1,0 +1,37 @@
+    cat_features = [
+    "workclass",
+    "education",
+    "marital-status",
+    "occupation",
+    "relationship",
+    "race",
+    "sex",
+    "native-country",
+    ]
+    #Get the unique values of the feature of interest
+    feat_slice = df.loc[:,feature].unique()
+
+    #Creating a txt file where we'll write our perfromance results
+    file_object = open('{}_slice_output.txt'.format(feature), 'w')
+    file_object.write(f"Result of feature {feature} slice perfomance\n")
+    file_object.write("\n")
+
+    for slice in feat_slice:        
+        df_temp = df.loc[df.loc[:,feature] == slice]
+        X, y, _, _ = process_data(df_temp, 
+                                    categorical_features=cat_features, 
+                                    label="salary", 
+                                    training=False, 
+                                    encoder=encoder, 
+                                    lb=binarizer)
+        
+        preds = inference(model, X)
+        precision, recall, fbeta = compute_model_metrics(y, preds)
+
+    #Creating a txt file where we'll write our perfromance results
+        file_object.write(f"Slice by: {slice}\n")
+        file_object.write(f"Precision: {precision:.4f}\n")
+        file_object.write(f"Recall: {recall:.4f}\n")
+        file_object.write(f"fbeta: {fbeta:.4f}\n")
+        file_object.write("\n")
+    file_object.close()
