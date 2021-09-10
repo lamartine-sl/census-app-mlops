@@ -7,7 +7,6 @@ Date: September 2021
 from fastapi.testclient import TestClient
 from main import app
 import json
-import logging
 
 client = TestClient(app)
 
