@@ -5,47 +5,43 @@ name: Python application
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
+
     runs-on: ubuntu-latest
-    env:
-      DVC_REMOTE_REPOSITORY: s3://mlopsudacity/artifact
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
         python-version: 3.8
-
-    - name: Configure AWS Credentials
+    - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-1
-
     - name: Install dependencies
       run: |
-        python3 -m pip install --upgrade pip
+        python -m pip install --upgrade pip
         pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Add module to python path
-      run: |
-        export PYTHONPATH="${PYTHONPATH}:/home/runner/work/mlops_census/"
-    - name: Sets up DVC remote
-      run: |
-        dvc remote add -d s3_artifacts ${{ env.DVC_REMOTE_REPOSITORY }}
-        dvc pull
+    - name: Setup DVC
+      uses: iterative/setup-dvc@v1
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: DVC pull data from remote S3 bucket
+      run: |
+        dvc pull
     - name: Test with pytest
       run: |
         pytest
