@@ -1,2 +1,4 @@
+[core]
+    remote = census-app
 ['remote "census-app"']
     url = s3://census-app/path
