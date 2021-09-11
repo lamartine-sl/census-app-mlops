@@ -9,7 +9,7 @@ import yaml
 import logging
 from sklearn.model_selection import train_test_split
 from ml.data import process_data
-from ml.model import train_model, inference, compute_model_metrics, compute_slice_metrics
+from ml.model import train_model, inference, compute_model_metrics, slice_metrics_perfomance
 import pandas as pd
 import numpy as np
 
@@ -99,7 +99,7 @@ binarizer = pd.read_pickle(r"./model/lb.pkl")
 #slice_metrics_perfomance(DATA, "workclass", model, encoder, binarizer)
 
 for elem in CAT_FEATURES:
-    slice_metrics = compute_slice_metrics(DATA, elem, model, encoder, binarizer)
+    slice_metrics = slice_metrics_perfomance(DATA, elem, model, encoder, binarizer)
 
     SLICE_LOGGER.info("`%s` category", elem)
     for feature_val, metrics in slice_metrics.items():

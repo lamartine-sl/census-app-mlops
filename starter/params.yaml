@@ -14,6 +14,6 @@ categorical_features:
   - race
   - sex
   - native-country
-model_output: random_forest.pkl
-encoder_output: onehot_encoder.pkl
-label_binarizer_output: label_binarizer.pkl
+model_output: model.pkl
+encoder_output: encoder.pkl
+label_binarizer_output: lb.pkl
