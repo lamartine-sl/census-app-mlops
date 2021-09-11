@@ -2,4 +2,3 @@
     remote = census-app
 ['remote "census-app"']
     url = s3://census-app/path
-    endpointurl = https://censussalary.herokuapp.com
