@@ -1,5 +1,4 @@
 [core]
     remote = census-app
-    hardlink_lock = true
 ['remote "census-app"']
     url = s3://census-app/path
