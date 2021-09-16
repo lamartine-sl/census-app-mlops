@@ -7,7 +7,7 @@ Date : September 2021
 import os
 import numpy as np
 import pandas as pd
-from sklearn.ensemble import RandomForestClassifier
+from catboost import CatBoostClassifier, Pool
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 from .data import process_data
@@ -29,7 +29,7 @@ def train_model(X_train, y_train, model_params):
         Trained machine learning model.
     """
 
-    model = RandomForestClassifier(**model_params)
+    model = CatBoostClassifier(**model_params)
     model.fit(X_train, y_train)
     return model
 
@@ -55,11 +55,11 @@ def compute_model_metrics(y, preds):
     return precision, recall, fbeta
 
 
-def inference(model: RandomForestClassifier, X: np.array):
+def inference(model: CatBoostClassifier, X: np.array):
     """ Run model inferences and return the predictions.
     Inputs
     ------
-    model : RandomForestClassifier
+    model : CatBoostClassifier
         Trained machine learning model.
     X : np.array
         Data used for prediction.
@@ -107,8 +107,8 @@ def slice_metrics_perfomance(
     "native-country"]
     
     predictions = {}
-    for cls in df[feature].unique():
-        df_temp = df[df[feature] == cls]
+    for feat in df[feature].unique():
+        df_temp = df[df[feature] == feat]
         X, y, _, _ = process_data(
             df_temp, 
             categorical_features=cat_features, 
@@ -117,12 +117,12 @@ def slice_metrics_perfomance(
             encoder = encoder, 
             lb = binarizer)
 
-        predicted_values = inference(model, X)
-        precision, recall, fbeta = compute_model_metrics(y, predicted_values)
+        predict_values = inference(model, X)
+        precision, recall, fbeta = compute_model_metrics(y, predict_values)
 
-        predictions[cls] = {
+        predictions[feat] = {
             'precision': precision,
             'recall': recall,
             'fbeta': fbeta,
-            'n_row': len(df_temp)}
+            'rows': len(df_temp)}
     return predictions

@@ -1,10 +1,9 @@
-random_seed: 42
 data: census_clean.csv
+random_seed: 42
 train_params:
-  n_estimators: 100
-  criterion: entropy
-  max_depth: 7
-  max_features: 10
+  iterations: 100
+  depth: 7
+  loss_function: Logloss
 categorical_features:
   - workclass
   - education

@@ -84,4 +84,4 @@ def predict(data: Input):
         prediction = "Salary > 50k"
     else:
         prediction = "Salary <= 50k"
-    return {"prediction": prediction}
+    return {"Prediction": prediction}
