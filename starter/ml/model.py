@@ -7,7 +7,7 @@ Date : September 2021
 import os
 import numpy as np
 import pandas as pd
-from catboost import CatBoostClassifier, Pool
+from catboost import CatBoostClassifier
 from sklearn.metrics import fbeta_score, precision_score, recall_score
 from sklearn.preprocessing import LabelBinarizer, OneHotEncoder
 from .data import process_data
