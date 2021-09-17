@@ -7,6 +7,7 @@ Date: September, 2021
 import os
 from fastapi import FastAPI
 from pydantic import BaseModel
+from typing import List
 import pandas as pd
 import pickle
 from starter.ml.model import *
@@ -40,7 +41,7 @@ class Input(BaseModel):
     native_country : str = 'United States'
 
 class Output(BaseModel):
-    prediction: str
+    prediction:str
 
 
 @app.get("/")

@@ -1,7 +1,7 @@
 import requests
 import json 
 
-post1= {
+test1= {
   "age": 39,
   "workclass": "State-gov",
   "fnlgt": 77516,
@@ -17,10 +17,10 @@ post1= {
   "hours_per_week": 40,
   "native_country": "United-States"
 }
-response1 = requests.post('https://censussalary.herokuapp.com/predict/', data=json.dumps(post1))
+response1 = requests.post('https://censussalary.herokuapp.com/predict/', data=json.dumps(test1))
 
 
-post2= {
+test2= {
   "age": 23,
   "workclass": "Self-emp-inc",
   "fnlgt": 76516,
@@ -36,7 +36,7 @@ post2= {
   "hours_per_week": 40,
   "native_country": "United States"
 }
-response2 = requests.post('https://censussalary.herokuapp.com/predict/', data=json.dumps(post2))
+response2 = requests.post('https://censussalary.herokuapp.com/predict/', data=json.dumps(test2))
 
 
 print(response1.status_code)
