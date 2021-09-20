@@ -43,7 +43,6 @@ def test_post_less_50k():
                     "native_country": "United-States"
                     }
     response = client.post("/predict", json=input_dict)
-    assert response.status_code == 200
     assert json.loads(response.text)["prediction"] == "Salary <= 50k"
 
 
@@ -65,5 +64,4 @@ def test_post_greater_50k():
                     "native_country": "United-States"
                     }
     response = client.post("/predict", json=input_dict)
-    assert response.status_code == 200
     assert json.loads(response.text)["prediction"] == "Salary > 50k"

@@ -5,9 +5,9 @@ Author: Lamartine Santana
 Date: September, 2021
 """
 import os
+import yaml
 from fastapi import FastAPI
 from pydantic import BaseModel
-from typing import List
 import pandas as pd
 import pickle
 from starter.ml.model import *
@@ -23,6 +23,10 @@ if "DYNO" in os.environ and os.path.isdir(".dvc"):
         exit("dvc pull failed")
     os.system("rm -r .dvc .apt/usr/lib/dvc")
 
+# Read params.yaml file
+CWD = os.getcwd()
+with open(os.path.join(CWD, "starter", 'params.yaml'), 'r', encoding="UTF-8") as fp:
+    CONFIG = yaml.safe_load(fp)
 
 class Input(BaseModel):
     age : int = 23
@@ -43,6 +47,13 @@ class Input(BaseModel):
 class Output(BaseModel):
     prediction:str
 
+# Load Pickle files: Model, Encoder and LabelBinarizer   
+@app.on_event("startup")
+async def startup_event(): 
+    global model, encoder, binarizer
+    model = pickle.load(open("./model/model.pkl", "rb"))
+    encoder = pickle.load(open("./model/encoder.pkl", "rb"))
+    binarizer = pickle.load(open("./model/lb.pkl", "rb"))
 
 @app.get("/")
 def welcome():
@@ -51,22 +62,8 @@ def welcome():
 @app.post("/predict", response_model=Output, status_code=200)
 def predict(data: Input):
 
-    # Load Pickle files: Model, Encoder and LabelBinarizer   
-    model = pickle.load(open("./model/model.pkl", "rb"))
-    encoder = pickle.load(open("./model/encoder.pkl", "rb"))
-    binarizer = pickle.load(open("./model/lb.pkl", "rb"))
-
     # Categorical features for transform model
-    cat_features = [
-            "workclass",
-            "education",
-            "marital_status",
-            "occupation",
-            "relationship",
-            "race",
-            "sex",
-            "native_country"
-    ]
+    cat_features = CONFIG['categorical_features']
 
     # load predict_data
     request_dict = data.dict(by_alias=True)

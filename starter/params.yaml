@@ -7,12 +7,12 @@ train_params:
 categorical_features:
   - workclass
   - education
-  - marital-status
+  - marital_status
   - occupation
   - relationship
   - race
   - sex
-  - native-country
+  - native_country
 model_output: model.pkl
 encoder_output: encoder.pkl
 label_binarizer_output: lb.pkl
