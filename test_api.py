@@ -19,7 +19,10 @@ def test_get():
         response = client.get("/")
     except TypeError:
         print("ERROR: the directory is wrong, please specify the correct path")
+    
+    validate_content = response.content.decode('utf-8').strip('"')
     assert response.status_code == 200
+    assert validate_content == "Hi, Welcome to Census API"
 
 
 def test_post_less_50k():
@@ -43,6 +46,7 @@ def test_post_less_50k():
                     "native_country": "United-States"
                     }
     response = client.post("/predict", json=input_dict)
+    assert response.status_code == 200
     assert json.loads(response.text)["prediction"] == "Salary <= 50k"
 
 
@@ -64,4 +68,5 @@ def test_post_greater_50k():
                     "native_country": "United-States"
                     }
     response = client.post("/predict", json=input_dict)
+    assert response.status_code == 200
     assert json.loads(response.text)["prediction"] == "Salary > 50k"

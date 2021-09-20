@@ -47,17 +47,17 @@ class Input(BaseModel):
 class Output(BaseModel):
     prediction:str
 
-# Load Pickle files: Model, Encoder and LabelBinarizer   
-@app.on_event("startup")
-async def startup_event(): 
-    global model, encoder, binarizer
-    model = pickle.load(open("./model/model.pkl", "rb"))
-    encoder = pickle.load(open("./model/encoder.pkl", "rb"))
-    binarizer = pickle.load(open("./model/lb.pkl", "rb"))
-
 @app.get("/")
 def welcome():
     return "Hi, Welcome to Census API"
+
+# Load Pickle files: Model, Encoder and LabelBinarizer   
+#@app.on_event("startup")
+#async def startup_event(): 
+#    global model, encoder, binarizer
+model = pickle.load(open("./model/model.pkl", "rb"))
+encoder = pickle.load(open("./model/encoder.pkl", "rb"))
+binarizer = pickle.load(open("./model/lb.pkl", "rb"))
 
 @app.post("/predict", response_model=Output, status_code=200)
 def predict(data: Input):
